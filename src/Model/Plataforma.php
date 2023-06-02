@@ -28,7 +28,7 @@
         }
 
         public function create($body){
-            $sql = "INSERT INTO plataformas (nombre, id) VALUES (?,?)";
+            $sql = "INSERT INTO plataformas (nombre) VALUES (?)";
             $stmt= $this->connection->prepare($sql);
             $stmt->execute($this->valuesQuery($body));
         }
@@ -36,5 +36,12 @@
         private function valuesQuery($body){
             $name = $body['name'];
             return [$name];
+        }
+
+        public function exist($id){
+            $sql = "SELECT * FROM plataformas WHERE id= :id";
+            $stmt= $this->connection->prepare($sql);
+            $stmt->execute(['id' => $id]);
+            return $stmt ->rowCount() > 0;
         }
     }

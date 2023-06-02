@@ -35,6 +35,7 @@ class ComposerStaticInitb257a4c4a421d760dd1b18245122fec4
         array (
             'App\\Service\\' => 12,
             'App\\Model\\' => 10,
+            'App\\Exception\\' => 14,
         ),
     );
 
@@ -84,6 +85,10 @@ class ComposerStaticInitb257a4c4a421d760dd1b18245122fec4
         'App\\Model\\' => 
         array (
             0 => __DIR__ . '/../..' . '/src/Model',
+        ),
+        'App\\Exception\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/src/Exception',
         ),
     );
 

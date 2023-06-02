@@ -11,7 +11,7 @@
             $stmt =  $this->connection->query($sql);
             if ($stmt->rowCount()>0)
                 return $stmt->fetchAll(\PDO::FETCH_OBJ);
-            $stmt = null;                                               //ver que pasa si no hay datos
+            $stmt = null;
         }
         public function retrieveByFilter($name, $idPlatform, $idGender, $order){
             $sql = "SELECT * FROM juegos WHERE nombre=:name AND id_plataforma=:idPlatform AND id_genero=:idGender ORDER BY nombre ASC";
@@ -19,7 +19,7 @@
                 $sql = "SELECT * FROM juegos WHERE nombre=:name AND id_plataforma=:idPlatform AND id_genero=:idGender ORDER BY nombre DESC";
             $stmt = $this->connection->prepare($sql);
             $stmt->execute(['name' => $name, 'idPlatform' => $idPlatform ,'idGender' => $idGender]);
-            return $stmt->fetch();
+            return $stmt->fetchAll(\PDO::FETCH_OBJ);
         }
         public function deleteById($id){
             $sql = "DELETE FROM juegos WHERE id = :id";
@@ -50,5 +50,12 @@
             $id_gender = $body['id_gender'];
             $id_platform = $body['id_platform'];
             return [$name, $image, $type_image, $description, $url, $id_gender, $id_platform];
+        }
+
+        public function exist($id){
+            $sql = "SELECT * FROM juegos WHERE id= :id";
+            $stmt= $this->connection->prepare($sql);
+            $stmt->execute(['id' => $id]);
+            return $stmt ->rowCount() > 0;
         }
     }

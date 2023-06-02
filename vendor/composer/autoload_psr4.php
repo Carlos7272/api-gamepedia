@@ -17,4 +17,5 @@ return array(
     'FastRoute\\' => array($vendorDir . '/nikic/fast-route/src'),
     'App\\Service\\' => array($baseDir . '/src/Service'),
     'App\\Model\\' => array($baseDir . '/src/Model'),
+    'App\\Exception\\' => array($baseDir . '/src/Exception'),
 );

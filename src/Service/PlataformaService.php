@@ -22,4 +22,8 @@
         public function create($body){
             return $this->model->create($body);
         }
+
+        public function exist($id){
+            return $this->model->exist($id);
+        }
     }

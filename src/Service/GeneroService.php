@@ -5,7 +5,7 @@
     {
         private $model;
         public function __construct(){
-            $this->model = new Plataforma();
+            $this->model = new Genero();
         }
         public function retrieve(){
             return $this->model->retrieve();
@@ -21,5 +21,9 @@
 
         public function create($body){
             return $this->model->create($body);
+        }
+
+        public function exist($id){
+            return $this->model->exist($id);
         }
     }

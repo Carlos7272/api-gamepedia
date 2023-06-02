@@ -8,10 +8,7 @@ use Slim\Routing\RouteCollectorProxy;
 use App\Service\JuegoService;
 
 return function (App $app) {
-
-    //forma ok
-    //$app->group('/juegos',
-     $app->group('/api-gamepedia/public/juegos',
+     $app->group('/juegos',
         function (RouteCollectorProxy $group) {
 
             //Get all games and get all with filter
@@ -35,20 +32,19 @@ return function (App $app) {
             );
 
             //Delete game by id
-            //idGame -----no existe-----404
-            //error si el id se esta utilizando...400
             $group->delete('/{idGame}',
                 function (Request $request, Response $response) {
-                    $id = $request->getAttribute('idGame');
+                    $id = (int)$request->getAttribute('idGame');
                     try {
                         $service = new JuegoService();
-                        $service->deleteById((int)$id);
+                        if (!$service->exist($id))
+                            return utilResponse($response, ['message' => 'Juego: '.$id.' no existe'], 404);
+                        $service->deleteById($id);
                     }catch (PDOInitializeException $ex){
                         return utilResponse($response, ['message' => $ex ->getMessage()], 500);
                     }catch (Exception $ex){
                         return utilResponse($response, ['message' => $ex ->getMessage()], 400);
                     }
-                    //return utilResponse($response, ['message' => 'Juego: '.$id.' actualizado correctamente'], 200);
                     return utilResponse($response, ['message' => 'Juego: '.$id.' se elimino correctamente'], 200);
                 }
             );
@@ -56,11 +52,13 @@ return function (App $app) {
             //Update game
             $group->put('/{idGame}',
                 function (Request $request, Response $response) {
-                    $id = $request->getAttribute('idGame');
+                    $id = (int)$request->getAttribute('idGame');
                     try {
                         $service = new JuegoService();
+                        if (!$service->exist($id))
+                            return utilResponse($response, ['message' => 'Juego: '.$id.' no existe'], 404);
                         $body = $request->withParsedBody(json_decode(file_get_contents('php://input'), true))->getParsedBody();
-                        $service->updateById((int)$id, $body);
+                        $service->updateById($id, $body);
                     }catch (PDOInitializeException $ex){
                         return utilResponse($response, ['message' => $ex ->getMessage()], 500);
                     }catch (Exception $ex){
@@ -76,13 +74,13 @@ return function (App $app) {
                     try{
                         $service = new JuegoService();
                         $body = $request->withParsedBody(json_decode(file_get_contents('php://input'), true))->getParsedBody();
-                        $data = $service->create($body);
+                        $service->create($body);
                     }catch (PDOInitializeException $ex){
                         return utilResponse($response, ['message' => $ex ->getMessage()], 500);
                     }catch (Exception $ex){
                         return utilResponse($response, ['message' => $ex ->getMessage()], 400);
                     }
-                    return utilResponse($response, $data, 200);
+                    return utilResponse($response, ['message' => 'Juego creado correctamente'], 200);
                 }
             );
 
