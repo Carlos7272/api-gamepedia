@@ -6,18 +6,21 @@ use Slim\App;
 use Slim\Routing\RouteCollectorProxy;
 use App\Service\PlataformaService;
 
-$service = new PlataformaService();
-
 return function (App $app) {
 
     $app->group('/api-gamepedia/public/plataforma',
         function (RouteCollectorProxy $group) {
 
-            //Get all genders
-            $group->get('/retrieve',
+            //Get all plataforms
+            $group->get('',
                 function (Request $request, Response $response) {
-                    $data = $GLOBALS['service'] ->retrieve();      //setear errores en caso que haya exception
-                    return utilResponse($response, $data);
+                    try {
+                        $service = new PlataformaService();
+                        $data = $service->retrieve();
+                        return utilResponse($response, $data, 200);
+                    }catch (Exception $ex){
+                        return utilResponse($response, ['message' => $ex ->getMessage()], 500);
+                    }
                 }
             );
 
