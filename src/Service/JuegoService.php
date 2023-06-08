@@ -11,8 +11,8 @@
             return $this->model->retrieve();
         }
 
-        public function retrieveByFilter($name, $idPlatform, $idGender, $order){
-            return $this->model->retrieveByFilter($name, $idPlatform, $idGender, $order);
+        public function retrieveByFilter($name, $idPlatform, $idGender, $asc){
+            return $this->model->retrieveByFilter($name, $idPlatform, $idGender, $asc);
         }
 
         public function deleteById($id){
