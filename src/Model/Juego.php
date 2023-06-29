@@ -15,12 +15,22 @@
         }
         public function retrieveByFilter($name, $idPlatform, $idGender, $asc){
             $sql = "SELECT * FROM juegos WHERE 'una condicion x' = 'una condicion x'";
-            if (!is_null($name)) $sql = $sql." AND nombre='".$name."'";
-            if (!is_null($idPlatform)) $sql = $sql." AND id_plataforma=".$idPlatform;
+
+            if (!is_null($name)) {
+                $sql = $sql." AND nombre like '%".$name."%'";
+            }
+
+            if (!is_null($idPlatform)) {
+                $sql = $sql." AND id_plataforma=".$idPlatform;
+            }
+
             if (!is_null($idGender)) $sql = $sql." AND id_genero=".$idGender;
+
             if ($asc === "true") $sql = $sql." ORDER BY nombre ASC";
             else $sql = $sql." ORDER BY nombre DESC";
+
             $stmt = $this->connection->query($sql);
+
             return $stmt->fetchAll(\PDO::FETCH_OBJ);
         }
         public function deleteById($id){

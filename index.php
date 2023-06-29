@@ -5,7 +5,7 @@ use Selective\BasePath\BasePathMiddleware;
 require __DIR__ . '/vendor/autoload.php';
 
 $app = AppFactory::create();
-
+header("Access-Control-Allow-Origin: *");
 $app->addRoutingMiddleware();
 $app->addErrorMiddleware(true, true, true);
 

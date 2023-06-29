@@ -25,7 +25,7 @@ return function (App $app) {
                                 if (!isValidQueryParamsJuegos($params))
                                     return utilResponse($response, ['message' => 'error en los parametros'], 400);
                                 else
-                                    $data = $service->retrieveByFilter($params['name'], $params['idPlatform'], $params['idGender'], $params['ascending']);
+                                    $data = $service->retrieveByFilter($params['name'] ?? null, $params['idPlatform'] ?? null, $params['idGender'] ?? null, $params['ascending'] ?? "true");
                             return utilResponse($response, $data, 200);
                         }catch (Exception $ex){
                             return utilResponse($response, ['message' => $ex ->getMessage()], 500);
@@ -102,10 +102,10 @@ return function (App $app) {
 
             function isValidQueryParamsJuegos($params): bool
             {
-                $name = $params['name'];
-                $idPlatform = $params['idPlatform'];
-                $idGender = $params['idGender'];
-                $ascending = $params['ascending'];
+                $name = $params['name'] ?? null;
+                $idPlatform = $params['idPlatform'] ?? null;
+                $idGender = $params['idGender'] ?? null;
+                $ascending = $params['ascending'] ?? null;
 
                 if (is_null($name) && is_null($idPlatform) && is_null($idGender))
                     return false;
