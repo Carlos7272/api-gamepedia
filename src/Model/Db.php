@@ -8,7 +8,7 @@
         const DB_HOST = "localhost";
         const DB_NAME = "juegos_online";
         const DB_LOGIN = "root";
-        const DB_PASS = "root";
+        const DB_PASS = "";
 
         /**
          * @throws PDOInitializeException

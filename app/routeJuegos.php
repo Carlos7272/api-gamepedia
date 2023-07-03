@@ -22,10 +22,10 @@ return function (App $app) {
                             if (empty($params))
                                 $data = $service->retrieve();
                             else
-                                if (!isValidQueryParamsJuegos($params))
-                                    return utilResponse($response, ['message' => 'error en los parametros'], 400);
-                                else
+                                if (isValidQueryParamsJuegos($params))
                                     $data = $service->retrieveByFilter($params['name'] ?? null, $params['idPlatform'] ?? null, $params['idGender'] ?? null, $params['ascending'] ?? "true");
+                                else 
+                                    return utilResponse($response, ['message' => 'error en los parametros'], 400);
                             return utilResponse($response, $data, 200);
                         }catch (Exception $ex){
                             return utilResponse($response, ['message' => $ex ->getMessage()], 500);
@@ -111,10 +111,8 @@ return function (App $app) {
                     return false;
                 if (!is_null($ascending)) {
                     $ascending = strtolower($ascending);
-                    if ($ascending != "true" && $ascending != "false") return false;
+                    if ($ascending != true && $ascending != false) return false;
                 }
-                if (!is_null($idPlatform) && !is_numeric($idPlatform)) return false;
-                if (!is_null($idGender) && !is_numeric($idGender)) return false;
                 return true;
             }
 
