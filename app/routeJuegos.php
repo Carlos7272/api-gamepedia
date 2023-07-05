@@ -107,8 +107,6 @@ return function (App $app) {
                 $idGender = $params['idGender'] ?? null;
                 $ascending = $params['ascending'] ?? null;
 
-                if (is_null($name) && is_null($idPlatform) && is_null($idGender))
-                    return false;
                 if (!is_null($ascending)) {
                     $ascending = strtolower($ascending);
                     if ($ascending != true && $ascending != false) return false;

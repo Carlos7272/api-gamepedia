@@ -22,11 +22,11 @@
                 $sql = $sql." AND nombre LIKE '%".$name."%'";
             }
 
-            if (!is_null($idPlatform)&&(!is_numeric($idPlatform))) {
+            if (!is_null($idPlatform)&&(is_numeric($idPlatform))) {
                 $sql = $sql." AND id_plataforma=".$idPlatform;
             }
 
-            if (!is_null($idGender)&&(!is_numeric($idGender))) $sql = $sql." AND id_genero=".$idGender;
+            if (!is_null($idGender)&&(is_numeric($idGender))) $sql = $sql." AND id_genero=".$idGender;
 
             if ($asc === "true") $sql = $sql." ORDER BY nombre ASC";
             else $sql = $sql." ORDER BY nombre DESC";
