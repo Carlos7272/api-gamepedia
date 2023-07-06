@@ -6,25 +6,27 @@
             $db = new Db();
             $this->connection = $db->connectionDB();
         }
+
         public function retrieve(){
-            $sql = "SELECT * FROM juegos";
+            $sql = "SELECT * FROM juegos ORDER BY nombre ASC";
             $stmt =  $this->connection->query($sql);
             if ($stmt->rowCount()>0)
                 return $stmt->fetchAll(\PDO::FETCH_OBJ);
             $stmt = null;
         }
+
         public function retrieveByFilter($name, $idPlatform, $idGender, $asc){
             $sql = "SELECT * FROM juegos WHERE 'una condicion x' = 'una condicion x'";
 
             if (!is_null($name)) {
-                $sql = $sql." AND nombre like '%".$name."%'";
+                $sql = $sql." AND nombre LIKE '%".$name."%'";
             }
 
-            if (!is_null($idPlatform)) {
+            if (!is_null($idPlatform)&&(is_numeric($idPlatform))) {
                 $sql = $sql." AND id_plataforma=".$idPlatform;
             }
 
-            if (!is_null($idGender)) $sql = $sql." AND id_genero=".$idGender;
+            if (!is_null($idGender)&&(is_numeric($idGender))) $sql = $sql." AND id_genero=".$idGender;
 
             if ($asc === "true") $sql = $sql." ORDER BY nombre ASC";
             else $sql = $sql." ORDER BY nombre DESC";
@@ -33,6 +35,7 @@
 
             return $stmt->fetchAll(\PDO::FETCH_OBJ);
         }
+
         public function deleteById($id){
             $sql = "DELETE FROM juegos WHERE id = :id";
             $stmt= $this->connection->prepare($sql);
